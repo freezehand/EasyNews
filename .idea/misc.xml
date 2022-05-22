@@ -5,8 +5,19 @@
       <map>
         <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.2035" />
         <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
-        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/layout/activity_main.xml" value="0.2390625" />
-        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/layout/nav_header.xml" value="0.2" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/drawable/ic_menu_24dp.xml" value="0.188" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/drawable/ic_switch.xml" value="0.192" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/drawable/ic_vertical_align_top.xml" value="0.188" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/drawable/na_mail.xml" value="0.192" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/drawable/nav_call.xml" value="0.192" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/drawable/nav_friends.xml" value="0.192" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/drawable/nav_location.xml" value="0.2" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/drawable/nav_settings.xml" value="0.192" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/layout/list_item.xml" value="0.1796875" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/layout/nav_header.xml" value="0.25" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/menu/nav_menu.xml" value="0.264" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/menu/toolbar.xml" value="0.1796875" />
         <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2445" />
       </map>
     </option>
