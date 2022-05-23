@@ -34,10 +34,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity {
     private  androidx.appcompat.widget.Toolbar toolbar;
-    private DrawerLayout mDrawerLayout;
-    private NavigationView navigationView;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
+    private androidx.drawerlayout.widget.DrawerLayout mDrawerLayout;
+    private com.google.android.material.navigation.NavigationView navigationView;
+    private com.google.android.material.tabs.TabLayout tabLayout;
+    private androidx.viewpager.widget.ViewPager viewPager;
     private List<String> list;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
