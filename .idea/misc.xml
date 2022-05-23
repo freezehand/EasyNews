@@ -14,11 +14,15 @@
         <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/drawable/nav_location.xml" value="0.2" />
         <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/drawable/nav_settings.xml" value="0.192" />
         <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/layout/item_layout01.xml" value="0.18" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/layout/item_layout02.xml" value="0.1361111111111111" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/layout/item_layout03.xml" value="0.1361111111111111" />
         <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/layout/list_item.xml" value="0.1796875" />
         <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/layout/nav_header.xml" value="0.33" />
         <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/menu/nav_menu.xml" value="0.264" />
         <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/menu/toolbar.xml" value="0.1796875" />
         <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.2445" />
+        <entry key="..\:/AndroidProject/EasyNews/app/src/main/res/xml/network_security_config.xml" value="0.36614583333333334" />
       </map>
     </option>
   </component>
