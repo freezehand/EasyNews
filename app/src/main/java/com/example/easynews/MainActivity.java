@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        /* toolbar.setLogo(R.drawable.icon);//设置图片logo,你可以添加自己的图片*/
+     /*   toolbar.setLogo(R.drawable.nav_icon);//设置图片logo,你可以添加自己的图片*/
         toolbar.setTitle("简易新闻");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

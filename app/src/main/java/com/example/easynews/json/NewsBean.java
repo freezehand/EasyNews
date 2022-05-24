@@ -6,10 +6,8 @@ import java.util.List;
 public class NewsBean {
 
     private String reason;
-
-    private ResultDTO result;
-
-    private int errorCode;
+    private ResultBean result;
+    private int error_code;
 
     public String getReason() {
         return reason;
@@ -19,32 +17,24 @@ public class NewsBean {
         this.reason = reason;
     }
 
-    public ResultDTO getResult() {
+    public ResultBean getResult() {
         return result;
     }
 
-    public void setResult(ResultDTO result) {
+    public void setResult(ResultBean result) {
         this.result = result;
     }
 
-    public Integer getErrorCode() {
-        return errorCode;
+    public int getError_code() {
+        return error_code;
+    }
+    public void setError_code(int error_code) {
+        this.error_code = error_code;
     }
 
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public static class ResultDTO {
-
+    public static class ResultBean {
         private String stat;
-
-        private List<DataDTO> data;
-
-        private String page;
-
-        private String pageSize;
-
+        private List<DataBean> data;
         public String getStat() {
             return stat;
         }
@@ -53,51 +43,24 @@ public class NewsBean {
             this.stat = stat;
         }
 
-        public List<DataDTO> getData() {
+        public List<DataBean> getData() {
             return data;
         }
 
-        public void setData(List<DataDTO> data) {
+        public void setData(List<DataBean> data) {
             this.data = data;
         }
 
-        public String getPage() {
-            return page;
-        }
-
-        public void setPage(String page) {
-            this.page = page;
-        }
-
-        public String getPageSize() {
-            return pageSize;
-        }
-
-        public void setPageSize(String pageSize) {
-            this.pageSize = pageSize;
-        }
-
-        public static class DataDTO {
-
+        public static class DataBean {
             private String uniquekey;
-
             private String title;
-
             private String date;
-
             private String category;
-
-            private String authorName;
-
+            private String author_name;
             private String url;
-
-            private String thumbnailPicS;
-
-            private String thumbnailPicS02;
-
-            private String thumbnailPicS03;
-
-            private String isContent;
+            private String thumbnail_pic_s;
+            private String thumbnail_pic_s02;
+            private String thumbnail_pic_s03;
 
             public String getUniquekey() {
                 return uniquekey;
@@ -131,12 +94,12 @@ public class NewsBean {
                 this.category = category;
             }
 
-            public String getAuthorName() {
-                return authorName;
+            public String getAuthor_name() {
+                return author_name;
             }
 
-            public void setAuthorName(String authorName) {
-                this.authorName = authorName;
+            public void setAuthor_name(String author_name) {
+                this.author_name = author_name;
             }
 
             public String getUrl() {
@@ -147,37 +110,30 @@ public class NewsBean {
                 this.url = url;
             }
 
-            public String getThumbnailPicS() {
-                return thumbnailPicS;
+            public String getThumbnail_pic_s() {
+                return thumbnail_pic_s;
             }
 
-            public void setThumbnailPicS(String thumbnailPicS) {
-                this.thumbnailPicS = thumbnailPicS;
+            public void setThumbnail_pic_s(String thumbnail_pic_s) {
+                this.thumbnail_pic_s = thumbnail_pic_s;
             }
 
-            public String getThumbnailPicS02() {
-                return thumbnailPicS02;
+            public String getThumbnail_pic_s02() {
+                return thumbnail_pic_s02;
             }
 
-            public void setThumbnailPicS02(String thumbnailPicS02) {
-                this.thumbnailPicS02 = thumbnailPicS02;
+            public void setThumbnail_pic_s02(String thumbnail_pic_s02) {
+                this.thumbnail_pic_s02 = thumbnail_pic_s02;
             }
 
-            public String getThumbnailPicS03() {
-                return thumbnailPicS03;
+            public String getThumbnail_pic_s03() {
+                return thumbnail_pic_s03;
             }
 
-            public void setThumbnailPicS03(String thumbnailPicS03) {
-                this.thumbnailPicS03 = thumbnailPicS03;
-            }
-
-            public String getIsContent() {
-                return isContent;
-            }
-
-            public void setIsContent(String isContent) {
-                this.isContent = isContent;
+            public void setThumbnail_pic_s03(String thumbnail_pic_s03) {
+                this.thumbnail_pic_s03 = thumbnail_pic_s03;
             }
         }
     }
+
 }

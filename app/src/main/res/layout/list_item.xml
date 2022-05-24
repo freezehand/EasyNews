@@ -33,6 +33,10 @@
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:src="@drawable/ic_vertical_align_top"
-            app:elevation="8dp" />
+            app:elevation="8dp">
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+
     </FrameLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

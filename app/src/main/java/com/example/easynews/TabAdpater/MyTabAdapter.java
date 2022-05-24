@@ -18,16 +18,17 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import java.util.List;
 
 public class MyTabAdapter extends BaseAdapter {
-    private List<NewsBean.ResultDTO.DataDTO> list;
+    private List<NewsBean.ResultBean.DataBean> list;
     private Context context;
     private int IMAGE_01 =0;
     private int IMAGE_02 = 1;
     private int IMAGE_03 = 2;
 
-    public MyTabAdapter(Context context,List<NewsBean.ResultDTO.DataDTO> list){
+    public MyTabAdapter(Context context,List<NewsBean.ResultBean.DataBean> list){
         this.context=context;
         this.list=list;
 
+        //配置lmageloader类
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
 
     }
@@ -54,16 +55,17 @@ public class MyTabAdapter extends BaseAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (list.get(position).getThumbnailPicS() != null &&
-                list.get(position).getThumbnailPicS02() !=null &&
-                list.get(position).getThumbnailPicS03() !=null){
+        if (list.get(position).getThumbnail_pic_s() != null &&
+                list.get(position).getThumbnail_pic_s02() !=null &&
+                list.get(position).getThumbnail_pic_s03() !=null){
             return IMAGE_03;
-        }else if (list.get(position).getThumbnailPicS() !=null &&
-                list.get(position).getThumbnailPicS02() !=null){
+        }else if (list.get(position).getThumbnail_pic_s() !=null &&
+                list.get(position).getThumbnail_pic_s02() !=null){
             return IMAGE_02;
         }
         return IMAGE_01;
     }
+
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -78,14 +80,15 @@ public class MyTabAdapter extends BaseAdapter {
                 holder.title = (TextView) convertView.findViewById(R.id.title);
                 holder.image = (ImageView) convertView.findViewById(R.id.image);
                 convertView.setTag(holder);
+
             }else {
                 holder = (Image01_ViewHolder) convertView.getTag();
             }
 
             //获取数据重新赋值
             holder.title.setText(list.get(position).getTitle());
-            holder.author_name.setText(list.get(position).getAuthorName());
-            ImageLoader.getInstance().displayImage(list.get(position).getThumbnailPicS(),holder.image,getOption());
+            holder.author_name.setText(list.get(position).getAuthor_name());
+            ImageLoader.getInstance().displayImage(list.get(position).getThumbnail_pic_s(),holder.image,getOption());
         }else if (getItemViewType(position) == IMAGE_02){
             Image02_ViewHolder holder;
             if (convertView == null){
@@ -96,6 +99,7 @@ public class MyTabAdapter extends BaseAdapter {
                 holder.image002 = (ImageView) convertView.findViewById(R.id.image002);
                 holder.image001 = (ImageView) convertView.findViewById(R.id.image001);
                 holder.title = (TextView) convertView.findViewById(R.id.title);
+                holder.author_name = (TextView) convertView.findViewById(R.id.author_name);
                 convertView.setTag(holder);
             }else {
                 holder = (Image02_ViewHolder) convertView.getTag();
@@ -103,8 +107,9 @@ public class MyTabAdapter extends BaseAdapter {
 
             //获取数据重新赋值
             holder.title.setText(list.get(position).getTitle());
-            ImageLoader.getInstance().displayImage(list.get(position).getThumbnailPicS(),holder.image001,getOption());
-            ImageLoader.getInstance().displayImage(list.get(position).getThumbnailPicS02(),holder.image002,getOption());
+            holder.author_name.setText(list.get(position).getAuthor_name());
+            ImageLoader.getInstance().displayImage(list.get(position).getThumbnail_pic_s(),holder.image001,getOption());
+            ImageLoader.getInstance().displayImage(list.get(position).getThumbnail_pic_s02(),holder.image002,getOption());
         } else {
             Image03_ViewHolder holder;
             if (convertView == null){
@@ -116,6 +121,7 @@ public class MyTabAdapter extends BaseAdapter {
                 holder.image02 = (ImageView) convertView.findViewById(R.id.image02);
                 holder.image03 = (ImageView) convertView.findViewById(R.id.image03);
                 holder.title = (TextView) convertView.findViewById(R.id.title);
+                holder.author_name = (TextView) convertView.findViewById(R.id.author_name);
                 convertView.setTag(holder);
             }else {
                 holder = (Image03_ViewHolder) convertView.getTag();
@@ -123,13 +129,13 @@ public class MyTabAdapter extends BaseAdapter {
 
             //获取数据重新赋值
             holder.title.setText(list.get(position).getTitle());
-            ImageLoader.getInstance().displayImage(list.get(position).getThumbnailPicS(),holder.image01,getOption());
-            ImageLoader.getInstance().displayImage(list.get(position).getThumbnailPicS02(),holder.image02,getOption());
-            ImageLoader.getInstance().displayImage(list.get(position).getThumbnailPicS03(),holder.image03,getOption());
+            holder.author_name.setText(list.get(position).getAuthor_name());
+            ImageLoader.getInstance().displayImage(list.get(position).getThumbnail_pic_s(),holder.image01,getOption());
+            ImageLoader.getInstance().displayImage(list.get(position).getThumbnail_pic_s02(),holder.image02,getOption());
+            ImageLoader.getInstance().displayImage(list.get(position).getThumbnail_pic_s03(),holder.image03,getOption());
         }
         return convertView;
     }
-
     //配置图片加载失败和加载中显示的Android小机器人logo
     public static DisplayImageOptions getOption() {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
@@ -152,13 +158,12 @@ public class MyTabAdapter extends BaseAdapter {
         ImageView image;
     }
     static  class  Image02_ViewHolder{
-        TextView title;
+        TextView title,author_name;
         ImageView image001,image002;
     }
     static  class  Image03_ViewHolder{
-        TextView title;
+        TextView title,author_name;
         ImageView image01,image02,image03;
     }
-
-
 }
+
