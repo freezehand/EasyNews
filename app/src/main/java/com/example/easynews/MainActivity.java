@@ -1,16 +1,19 @@
 package com.example.easynews;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Message;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,12 +28,33 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.widget.Toolbar;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.qweather.sdk.bean.air.AirNowBean;
+import com.qweather.sdk.bean.base.Code;
+import com.qweather.sdk.bean.base.Lang;
+import com.qweather.sdk.bean.base.Unit;
+import com.qweather.sdk.bean.geo.GeoBean;
+import com.qweather.sdk.bean.weather.WeatherNowBean;
+import com.qweather.sdk.view.HeConfig;
+import com.qweather.sdk.view.QWeather;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
     private  androidx.appcompat.widget.Toolbar toolbar;
@@ -39,10 +63,34 @@ public class MainActivity extends AppCompatActivity {
     private com.google.android.material.tabs.TabLayout tabLayout;
     private androidx.viewpager.widget.ViewPager viewPager;
     private List<String> list;
+
+    //天气
+    TextView tv_tianqi,tv_kongqi,tv_airqlty;
+    ImageView img_weather;
+    public AMapLocationClient mLocationClient=null;
+    //声明定位回调监听器
+    public AMapLocationClientOption mLocationOption=null;
+    GeoBean.LocationBean location_bean;
+    private  String CityId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        try {
+            initMap();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //username,key要替换成你自己的哦
+        HeConfig.init("HE2205260009191403","63a947006a80404ca4367b79e2051fb9");
+        HeConfig.switchToDevService();
+
+        tv_tianqi =(TextView) findViewById(R.id.tv_tianqi);
+        tv_kongqi =(TextView) findViewById(R.id.tv_kongqi);
+        tv_airqlty =(TextView) findViewById(R.id.tv_airqlty);
+        img_weather=(ImageView) findViewById(R.id.img_weather);
+
         toolbar =  findViewById(R.id.toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout); //获取抽屉布局
         navigationView = (NavigationView) findViewById(R.id.nav_design);//获取菜单控件实例
@@ -51,6 +99,100 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         list = new ArrayList<>();
+    }
+
+
+    private void initMap() throws Exception {
+
+        AMapLocationClient.updatePrivacyShow(this, true, true);
+        AMapLocationClient.updatePrivacyAgree(this,true);
+
+        //初始化定位
+        mLocationClient=new AMapLocationClient(MainActivity.this);
+        //设置定位回调监听
+        mLocationClient.setLocationListener(mLocationListener);
+        mLocationOption = new AMapLocationClientOption();
+//设置定位模式为高精度模式，AMapLocationMode.Battery_Saving为低功耗模式，AMapLocationMode.Device_Sensors是仅设备模式
+        mLocationOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        mLocationOption.setNeedAddress(true);//设置是否返回地址信息（默认返回地址信息）
+        mLocationOption.setOnceLocation(false);//设置是否只定位一次,默认为false
+        mLocationOption.setWifiActiveScan(true);//设置是否强制刷新WIFI，默认为强制刷新
+        mLocationOption.setMockEnable(false);//设置是否允许模拟位置,默认为false，不允许模拟位置
+        mLocationOption.setInterval(15000);//设置定位间隔,单位毫秒,默认为2000ms
+        mLocationOption.setOnceLocation(false);//可选，是否设置单次定位默认为false即持续定位
+        mLocationOption.setOnceLocationLatest(false); //可选，设置是否等待wifi刷新，默认为false.如果设置为true,会自动变为单次定位，持续定位时不要使用
+        mLocationOption.setWifiScan(true); //可选，设置是否开启wifi扫描。默认为true，如果设置为false会同时停止主动刷新，停止以后完全依赖于系统刷新，定位位置可能存在误差
+        mLocationOption.setLocationCacheEnable(true); //可选，设置是否使用缓存定位，默认为true
+//给定位客户端对象设置定位参数
+        mLocationClient.setLocationOption(mLocationOption);
+//启动定位
+        mLocationClient.startLocation();
+    }
+
+    public AMapLocationListener mLocationListener=new AMapLocationListener() {
+        @Override
+        public void onLocationChanged(AMapLocation aMapLocation) {
+            if (aMapLocation != null) {
+                if (aMapLocation.getErrorCode() == 0) {
+                    aMapLocation.getLocationType();//获取当前定位结果来源，如网络定位结果，详见定位类型表
+                    aMapLocation.getAccuracy();//获取精度信息
+                    java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    //获取经纬度
+                    double  LongitudeId = aMapLocation.getLongitude();
+                    double LatitudeId = aMapLocation.getLatitude();
+                    //获取定位城市定位的ID
+                    requestCityInfo(LongitudeId,LatitudeId);
+                    Toast.makeText(MainActivity.this,"所在城市："+aMapLocation.getProvince()+aMapLocation.getCity(),Toast.LENGTH_SHORT).show();
+                    mLocationClient.stopLocation();//停止定位
+                } else {
+                    //显示错误信息ErrCode是错误码，errInfo是错误信息，详见错误码表。
+                    Log.e("info", "location Error, ErrCode:"
+                            + aMapLocation.getErrorCode() + ", errInfo:"
+                            + aMapLocation.getErrorInfo());
+                }
+            }
+        }
+    };
+
+    public void  requestCityInfo(double longitude,double latitude){
+        //这里的key是webapi key
+        String cityUrl = "https://geoapi.qweather.com/v2/city/lookup?location="+longitude+","+latitude+"&key=41df96ba354340b8a05f56c59f859b0e";
+        sendRequestWithOkHttp(cityUrl);
+    }
+
+    private void sendRequestWithOkHttp(String cityUrl) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                OkHttpClient okHttpClient = new OkHttpClient();
+                Request request = new Request.Builder().url(cityUrl).build();
+                try {
+                    Response response = okHttpClient.newCall(request).execute();
+                    //返回城市列表json数据
+                    String responseData = response.body().string();
+                    System.out.println("变成json数据的格式："+responseData);
+                    JSONObject jsonWeather = null;
+                    try {
+                        jsonWeather = new JSONObject(responseData);
+                   /*     JSONArray jsonArray = jsonWeather.getJSONArray(1);
+                        JSONObject jsonObject = jsonArray.getJSONObject(0);*/
+                        String jsonStatus = jsonWeather.getString("code");
+                        System.out.println("解析以后的内容："+jsonStatus);
+                        if (jsonStatus.equals("200")){
+
+                            JSONArray jsonBasic = jsonWeather.getJSONArray("location");
+                            JSONObject jsonCityId = jsonBasic.getJSONObject(0);
+                            CityId = jsonCityId.getString("id");
+                            getWether();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     @Override
@@ -208,5 +350,88 @@ public class MainActivity extends AppCompatActivity {
 
         }
         return true;
+    }
+
+    private void getWether() {
+        /**
+         * 实况天气
+         * 实况天气即为当前时间点的天气状况以及温湿风压等气象指数，具体包含的数据：体感温度、
+         * 实测温度、天气状况、风力、风速、风向、相对湿度、大气压强、降水量、能见度等。
+         * @param context  上下文
+         * @param location 地址详解
+         * @param lang       多语言，默认为简体中文
+         * @param unit        单位选择，公制（m）或英制（i），默认为公制单位
+         * @param listener  网络访问回调接口
+         */
+        QWeather.getWeatherNow(MainActivity.this, CityId,  Lang.ZH_HANS , Unit.METRIC , new QWeather.OnResultWeatherNowListener() {
+            public static final String TAG="he_feng_now";
+            @Override
+            public void onError(Throwable e) {
+                Log.i(TAG, "onError: ", e);
+                System.out.println("Weather Now Error:"+new Gson());
+            }
+
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onSuccess(WeatherNowBean weatherBean) {
+                Log.i(TAG, " Weather Now onSuccess: " + new Gson().toJson(weatherBean));
+                String jsonData = new Gson().toJson(weatherBean);
+                String tianqi = null,wendu = null, tianqicode = null;
+                String code=weatherBean.getCode().toString();
+                if (Code.OK==weatherBean.getCode()){
+
+                    WeatherNowBean.NowBaseBean now = weatherBean.getNow();
+
+                    String JsonNow = new Gson().toJson(weatherBean.getNow());
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(JsonNow);
+                        tianqi = now.getText();
+                        wendu = now.getTemp();
+                        tianqicode=now.getIcon();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    Toast.makeText(MainActivity.this,"有错误",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String wendu2 = wendu +"℃";
+                tv_tianqi.setText(tianqi);
+                tv_kongqi.setText(wendu2);
+                String url="https://cdn.heweather.com/cond_icon/"+tianqicode+".png";
+
+            }
+        });
+        QWeather.getAirNow(MainActivity.this, CityId, Lang.ZH_HANS,  new QWeather.OnResultAirNowListener () {
+            public static final String TAG2="he_feng_air";
+            @Override
+            public void onError(Throwable throwable) {
+                Log.i(TAG2,"ERROR IS:",throwable);
+            }
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onSuccess(AirNowBean airNowBean) {
+                Log.i(TAG2,"Air Now onSuccess:"+new Gson().toJson(airNowBean));
+
+                if (Code.OK==airNowBean.getCode()){
+
+                    AirNowBean.NowBean nowBean=airNowBean.getNow();
+
+
+                    String aqi = null,qlty = null;
+                    JSONObject objectAir = null;
+
+
+                    aqi = nowBean.getAqi();
+                    qlty = nowBean.getCategory();
+                    tv_airqlty.setText(qlty+"("+aqi+")");
+
+                }else {
+                    Toast.makeText(MainActivity.this,"有错误",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+        });
     }
 }
