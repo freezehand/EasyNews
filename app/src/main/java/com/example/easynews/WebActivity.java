@@ -49,7 +49,16 @@ public class WebActivity extends AppCompatActivity {
                 view.loadUrl("javascript:function setTop(){document.querySelector('body > div.top-wrap.gg-item.J-gg-item').style.display=\"none\";}setTop();");
                 view.loadUrl("javascript:function setTop(){document.querySelector('body > div.section > div > div.main_content > div.aside').style.display=\"none\";}setTop();");
                 view.loadUrl("javascript:function setTop(){document.querySelector('body > div.section > div > div.main_content > div.bottom_over_cnt').style.display=\"none\";}setTop();");
-
+                view.loadUrl("javascript:function setTop(){document.querySelector('#hot_recommend_cnt').style.display=\"none\";}setTop();");
+                view.loadUrl("javascript:function setTop(){document.querySelector('#ggwrap_2qu76wvwb2m > div > div > div').style.display=\"none\";}setTop();");
+                view.loadUrl("javascript:function setTop(){document.querySelector('#cEoFJWmaUT').style.display=\"none\";}setTop();");
+                view.loadUrl("javascript:function setTop(){document.querySelector('#JULcaXvdLG').style.display=\"none\";}setTop();");
+                view.loadUrl("javascript:function setTop(){document.querySelector('#AQRuSWfuKL').style.display=\"none\";}setTop();");
+                view.loadUrl("javascript:function setTop(){document.querySelector('#news-btns').style.display=\"none\";}setTop();");
+                view.loadUrl("javascript:function setTop(){document.querySelector('#news_check').style.display=\"none\";}setTop();");
+                view.loadUrl("javascript:function setTop(){document.querySelector('#J_hot_news').style.display=\"none\";}setTop();");
+                view.loadUrl("javascript:function setTop(){document.querySelector('#J_search_input').style.display=\"none\";}setTop();");
+                view.loadUrl("javascript:function setTop(){document.querySelector('#J_article > section').style.display=\"none\";}setTop();");
             }
 
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error){
@@ -72,7 +81,7 @@ public class WebActivity extends AppCompatActivity {
         webView.loadUrl(url);
 
         setSupportActionBar(ltoolBar);
-        toolbar.setTitle("简易新闻");
+        toolbar.setTitle("晨起新闻");
         setSupportActionBar(toolbar);
         ltoolBar.inflateMenu(R.menu.tool_webbottom);
         ltoolBar.setTitle("感谢观看");

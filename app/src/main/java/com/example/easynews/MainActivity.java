@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //GPS获取地址
     private void initMap() throws Exception {
 
         AMapLocationClient.updatePrivacyShow(this, true, true);
@@ -160,6 +161,8 @@ public class MainActivity extends AppCompatActivity {
         sendRequestWithOkHttp(cityUrl);
     }
 
+
+    //获取城市ID
     private void sendRequestWithOkHttp(String cityUrl) {
         new Thread(new Runnable() {
             @Override
@@ -199,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
      /*   toolbar.setLogo(R.drawable.nav_icon);//设置图片logo,你可以添加自己的图片*/
-        toolbar.setTitle("简易新闻");
+        toolbar.setTitle("晨起新闻");
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar !=null){
@@ -250,6 +253,7 @@ public class MainActivity extends AppCompatActivity {
         list.add("军事");
         list.add("科技");
         list.add("财经");
+
         /* viewPager.setOffscreenPageLimit(1);*/
         viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             //得到当前页的标题，也就是设置当前页面显示的标题是tabLayout对应标题
@@ -317,6 +321,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+    //右上角
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -352,6 +358,8 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+    //获取天气
     private void getWether() {
         /**
          * 实况天气
